@@ -2,9 +2,9 @@
 <resources>
     <style name="Theme.Gym" parent="android:style/Theme.Material.NoActionBar">
         <item name="android:fontFamily">sans</item>
-        <item name="android:colorAccent">#56C8EE</item>
-        <item name="android:statusBarColor">#101620</item>
-        <item name="android:navigationBarColor">#101620</item>
+        <item name="android:colorAccent">#BD93F9</item>
+        <item name="android:statusBarColor">#282A36</item>
+        <item name="android:navigationBarColor">#282A36</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowActionModeOverlay">true</item>
     </style>

@@ -33,9 +33,16 @@ import java.util.Locale;
 
 /** Single-purpose, offline QR display. No account data leaves this phone. */
 public final class MainActivity extends Activity {
-    private static final int BG = Color.rgb(16, 22, 32);
-    private static final int ACCENT = Color.rgb(86, 200, 238);
-    private static final int SECONDARY = Color.rgb(172, 186, 201);
+    // Official Dracula base palette, with an accessible softened-foreground text tone.
+    private static final int BG = Color.rgb(40, 42, 54);          // #282A36
+    private static final int PANEL = Color.rgb(68, 71, 90);      // #44475A
+    private static final int FOREGROUND = Color.rgb(248, 248, 242); // #F8F8F2
+    private static final int PURPLE = Color.rgb(189, 147, 249);  // #BD93F9
+    private static final int PINK = Color.rgb(255, 121, 198);    // #FF79C6
+    private static final int CYAN = Color.rgb(139, 233, 253);    // #8BE9FD
+    private static final int ORANGE = Color.rgb(255, 184, 108);  // #FFB86C
+    private static final int SECONDARY = Color.rgb(209, 211, 224);
+    private static final int ACCENT = PURPLE;
     private static final long ROTATION_MS = 10_000L;
     private static final DateTimeFormatter UTC_CLOCK =
         DateTimeFormatter.ofPattern("HH:mm:ss 'UTC'", Locale.ROOT).withZone(ZoneOffset.UTC);
@@ -119,7 +126,7 @@ public final class MainActivity extends Activity {
 
         LinearLayout toolbar = new LinearLayout(this);
         toolbar.setGravity(Gravity.CENTER_VERTICAL);
-        TextView heading = text("SYNERGYM", 22, Color.WHITE, true);
+        TextView heading = text("SYNERGYM", 22, PINK, true);
         heading.setLetterSpacing(0.08f);
         toolbar.addView(heading, new LinearLayout.LayoutParams(0,
             ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
@@ -129,7 +136,7 @@ public final class MainActivity extends Activity {
         toolbar.addView(settings);
         page.addView(toolbar);
 
-        TextView caption = text("MEMBERSHIP ENTRY", 12, SECONDARY, true);
+        TextView caption = text("MEMBERSHIP ENTRY", 12, CYAN, true);
         caption.setLetterSpacing(0.16f);
         caption.setPadding(0, dp(12), 0, 0);
         page.addView(caption);
@@ -142,7 +149,7 @@ public final class MainActivity extends Activity {
         qrView = new ImageView(this);
         qrView.setContentDescription("Current, automatically refreshing gym QR code");
         qrView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        qrView.setBackgroundColor(Color.WHITE);
+        qrView.setBackgroundColor(FOREGROUND);
         qrView.setPadding(dp(6), dp(6), dp(6), dp(6));
 
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
@@ -153,11 +160,11 @@ public final class MainActivity extends Activity {
             Gravity.CENTER);
         center.addView(qrView, qrLayout);
 
-        countdownText = text("Refreshing...", 20, Color.WHITE, true);
+        countdownText = text("Refreshing...", 20, FOREGROUND, true);
         countdownText.setGravity(Gravity.CENTER);
         page.addView(countdownText);
 
-        generatedText = text("", 13, SECONDARY, false);
+        generatedText = text("", 13, PURPLE, false);
         generatedText.setGravity(Gravity.CENTER);
         generatedText.setPadding(0, dp(7), 0, dp(8));
         page.addView(generatedText);
@@ -214,15 +221,15 @@ public final class MainActivity extends Activity {
         applySystemBarPadding(page, 24, 28, 24, 30);
         scroll.addView(page);
 
-        TextView title = text("Gym QR", 30, Color.WHITE, true);
+        TextView title = text("Gym QR", 30, PINK, true);
         page.addView(title);
-        TextView subtitle = text("One-time membership setup", 16, SECONDARY, false);
+        TextView subtitle = text("One-time membership setup", 16, CYAN, false);
         subtitle.setPadding(0, dp(6), 0, dp(16));
         page.addView(subtitle);
 
         if (restoreFailed) {
             TextView warning = text("The saved signing key could not be unlocked. Re-enter your setup details.",
-                14, Color.rgb(255, 187, 126), false);
+                14, ORANGE, false);
             warning.setPadding(0, 0, 0, dp(14));
             page.addView(warning);
         }
@@ -287,19 +294,19 @@ public final class MainActivity extends Activity {
     }
 
     private EditText input(LinearLayout page, String label, String value, int type) {
-        TextView name = text(label, 13, SECONDARY, true);
+        TextView name = text(label, 13, CYAN, true);
         name.setPadding(0, dp(12), 0, dp(4));
         page.addView(name);
 
         EditText field = new EditText(this);
         field.setInputType(type);
         field.setSingleLine(true);
-        field.setTextColor(Color.WHITE);
+        field.setTextColor(FOREGROUND);
         field.setHintTextColor(SECONDARY);
         field.setSelectAllOnFocus(true);
         field.setTextSize(17);
         field.setPadding(dp(12), dp(8), dp(12), dp(8));
-        field.setBackground(rounded(Color.rgb(30, 40, 52), dp(10)));
+        field.setBackground(rounded(PANEL, dp(10)));
         field.setText(value);
         field.setContentDescription(label);
         page.addView(field, new LinearLayout.LayoutParams(
@@ -327,8 +334,8 @@ public final class MainActivity extends Activity {
         button.setAllCaps(false);
         button.setText(value);
         button.setTextSize(14);
-        button.setTextColor(primary ? BG : Color.WHITE);
-        button.setBackground(rounded(primary ? ACCENT : Color.rgb(36, 49, 63), dp(10)));
+        button.setTextColor(primary ? BG : FOREGROUND);
+        button.setBackground(rounded(primary ? ACCENT : PANEL, dp(10)));
         button.setPadding(dp(15), dp(8), dp(15), dp(8));
         return button;
     }

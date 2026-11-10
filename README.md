@@ -1,8 +1,12 @@
 # Gym QR — Android
 
-A standalone, **offline Android application** that displays a large rotating gym entry QR code, using the previously verified format from an existing Synergym membership's Tasker/Termux setup.
+A standalone, **offline Android application** with a Dracula-themed interface that displays a large rotating gym entry QR code, using the previously verified format from an existing Synergym membership's Tasker/Termux setup.
 
 **This is an unofficial personal-use client**, not endorsed by Synergym. A locally generated code may still be rejected if the gym changes its authentication policy.
+
+## Dracula theme
+
+The interface uses Dracula background `#282A36`, lighter panels `#44475A`, pink `#FF79C6` titles, purple `#BD93F9` accents, cyan `#8BE9FD` labels, and near-white `#F8F8F2` foreground. QR modules use **dark Dracula ink on a light background** for scan reliability. The original payload and signing algorithm are unchanged.
 
 ## Features
 

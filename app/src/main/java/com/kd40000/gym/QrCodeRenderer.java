@@ -22,10 +22,14 @@ public final class QrCodeRenderer {
 
         BitMatrix matrix = new QRCodeWriter().encode(
             value, BarcodeFormat.QR_CODE, size, size, hints);
+        // Use Dracula's near-white and dark ink for a highly scannable QR.
+        // Avoid decorative colors such as pink/purple on the encoded modules.
+        final int dark = Color.rgb(40, 42, 54);       // #282A36
+        final int light = Color.rgb(248, 248, 242);  // #F8F8F2
         int[] pixels = new int[size * size];
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                pixels[y * size + x] = matrix.get(x, y) ? Color.BLACK : Color.WHITE;
+                pixels[y * size + x] = matrix.get(x, y) ? dark : light;
             }
         }
         Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
