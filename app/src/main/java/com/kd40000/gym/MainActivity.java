@@ -2,9 +2,11 @@ package com.kd40000.gym;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Insets;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.WindowInsets;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -83,8 +86,9 @@ public final class MainActivity extends Activity {
 
     @Override protected void onPause() {
         handler.removeCallbacks(clockTick);
-        getWindow().getAttributes().screenBrightness =
-            WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+        WindowManager.LayoutParams window = getWindow().getAttributes();
+        window.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+        getWindow().setAttributes(window);
         super.onPause();
     }
 
@@ -111,7 +115,7 @@ public final class MainActivity extends Activity {
 
         LinearLayout page = vertical();
         page.setBackgroundColor(BG);
-        page.setPadding(dp(14), dp(14), dp(14), dp(14));
+        applySystemBarPadding(page, 14, 14, 14, 14);
 
         LinearLayout toolbar = new LinearLayout(this);
         toolbar.setGravity(Gravity.CENTER_VERTICAL);
@@ -207,7 +211,7 @@ public final class MainActivity extends Activity {
         scroll.setBackgroundColor(BG);
 
         LinearLayout page = vertical();
-        page.setPadding(dp(24), dp(28), dp(24), dp(30));
+        applySystemBarPadding(page, 24, 28, 24, 30);
         scroll.addView(page);
 
         TextView title = text("Gym QR", 30, Color.WHITE, true);
@@ -334,6 +338,18 @@ public final class MainActivity extends Activity {
         shape.setColor(color);
         shape.setCornerRadius(radius);
         return shape;
+    }
+
+    private void applySystemBarPadding(View view, int left, int top, int right, int bottom) {
+        view.setPadding(dp(left), dp(top), dp(right), dp(bottom));
+        if (Build.VERSION.SDK_INT >= 30) {
+            view.setOnApplyWindowInsetsListener((v, insets) -> {
+                Insets bars = insets.getInsets(WindowInsets.Type.systemBars());
+                v.setPadding(dp(left) + bars.left, dp(top) + bars.top,
+                    dp(right) + bars.right, dp(bottom) + bars.bottom);
+                return insets;
+            });
+        }
     }
 
     private int dp(int dimension) {
